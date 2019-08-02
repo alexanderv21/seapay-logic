@@ -1,6 +1,6 @@
 DB_HOST: localhost
 DB_PORT: 5432
-DB_NAME: sea_pay_dev
+DB_NAME: sea_pay_dev_test
 DB_USERNAME: postgres
 DB_PASSWORD: foo
 DB_SOFTWARE: postgresql
@@ -13,9 +13,9 @@ LOG_LEVEL: INFO
 PORT: 8080
 
 test:
-  DB_HOST: localhost
+  DB_HOST: postgres
   DB_PORT: 5432
-  DB_NAME: sea_pay_dev_test
+  DB_NAME: sea_pay_dev
   DB_USERNAME: postgres
   DB_PASSWORD: foo
   DB_SOFTWARE: postgresql

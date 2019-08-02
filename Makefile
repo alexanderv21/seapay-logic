@@ -1,18 +1,16 @@
 SEAPAY_VERSION=0.0.1
-DB_NAME="sea_pay_dev"
 TEST_DB_NAME="sea_pay_dev_test"
-DB_PORT=5432
 TEST_DB_PORT=5432
 
-all: clean db-setup testdb-setup build test
+all: clean testdb-setup build test
 
 db-setup: db-create db-migrate
 
 db-drop:
-	dropdb -p $(DB_PORT) --if-exists -Upostgres $(DB_NAME)
+	dropdb -h ${DB_HOST} -p ${DB_PORT} --if-exists -Upostgres ${DB_NAME}
 
 db-create:
-	createdb -p $(DB_PORT) -Opostgres -Eutf8 $(DB_NAME)
+	createdb -h ${DB_HOST} -p ${DB_PORT} -Opostgres -Eutf8 ${DB_NAME}
 
 db-migrate:
 	./gradlew migrateDb
@@ -20,20 +18,29 @@ db-migrate:
 testdb-setup: testdb-create testdb-migrate
 
 testdb-create: testdb-drop
-	createdb  -p $(TEST_DB_PORT) -Opostgres -Eutf8 $(TEST_DB_NAME)
+	createdb -p $(TEST_DB_PORT) -U postgres -Eutf8 $(TEST_DB_NAME)
 
 testdb-migrate:
-	APP_ENVIRONMENT=test ./gradlew migrateTestDb
+	./gradlew migrateTestDb
 
 testdb-drop:
-	dropdb -p $(TEST_DB_PORT) --if-exists -Upostgres $(TEST_DB_NAME)
+	dropdb -p $(TEST_DB_PORT) --if-exists -U postgres $(TEST_DB_NAME)
+
+cidb-migrate:
+	APP_ENVIRONMENT=test ./gradlew migrateCiDb
 
 .PHONY: test
 test:
-	APP_ENVIRONMENT=TEST ./gradlew test
+	./gradlew test check jacocoTestReport coverageReport
+
+test-ci: clean cidb-migrate ci-build
+	APP_ENVIRONMENT=test ./gradlew test check jacocoTestReport coverageReport
 
 build:
 	./gradlew build
+
+ci-build:
+	APP_ENVIRONMENT=test ./gradlew build
 
 clean:
 	./gradlew clean

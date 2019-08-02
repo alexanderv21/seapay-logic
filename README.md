@@ -1,5 +1,8 @@
  # Seapay
- 
+
+ [![pipeline status](https://gitlab.com/alexanderv21/seapay-logic/badges/master/pipeline.svg)](https://gitlab.com/alexanderv21/seapay-logic/commits/master)
+ [![coverage report](https://gitlab.com/alexanderv21/seapay-logic/badges/master/coverage.svg)](https://gitlab.com/alexanderv21/seapay-logic/commits/master)
+
 Seapay is a fintech app consists of 4 different services
   - API gateway
     - API gateway service routes all requests to other services
@@ -19,7 +22,7 @@ The project itself has 4 modules
    - the bussiness logic for all services goes here
  - seapay-monolith
    - an entry point of our monolithic app, including all handlers
-  
+
  # How to use
 
  ### Dependencies
@@ -37,7 +40,7 @@ The project itself has 4 modules
  ```
  make run
  ```
- 
+
  # Logic Sequence Diagram
  This script can be shown as Sequence Diagram on `https://mermaidjs.github.io/mermaid-live-editor`
 
@@ -90,7 +93,7 @@ sequenceDiagram
     Transaction->>Gateway: Topup Transaction Created
 
     Gateway->>Wallet: Topup Wallet
-    Wallet->>Gateway: Wallet Topup Success 
+    Wallet->>Gateway: Wallet Topup Success
 
     Gateway->>Bank: Topup Success
 ```
@@ -130,7 +133,7 @@ sequenceDiagram
     participant Entity
     participant Repository
     participant Database
-    
+
    Client->>Service: Create
 
    Service->>Entity: Initiate new Entity
@@ -155,7 +158,7 @@ sequenceDiagram
     participant Mapper
     participant Entity
     participant Database
-    
+
    Client->>Service: getDataByID
 
    Service->>Repository: Find Entity by ID
